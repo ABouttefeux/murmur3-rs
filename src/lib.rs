@@ -1,4 +1,12 @@
 
+//! Implementation of [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp)
+//! that implement the trait [`std::hash::Hasher`]
+//!
+//! MurmurHash3 is a non-crytographique Hasher. It is also not resistant to HashDoS. 
+//! It is however faster than SipHash 1-3.
+//! This implementation is intended for a light Hasher implementation to use with [`std::collections::HashMap`]
+//! with small keys.
+
 extern crate rand;
 
 use std::{
@@ -10,9 +18,13 @@ use std::{
 };
 use rand::Rng;
 
+/// HashMap using Murmur3.
 pub type Murmur3HashMap<K, V> = HashMap<K, V, BuildMurmur>;
+/// HashSet using Murmur3.
 pub type Murmur3HashSet<T> = HashSet<T, BuildMurmur>;
 
+/// Builder for [`Murmur3`]. The builder generate a random seed, and all Hasher 
+/// generated from a instance of the builder will share the same seed.
 pub struct BuildMurmur {
     seed: u32,
 }
@@ -33,9 +45,9 @@ impl BuildHasher for BuildMurmur {
 
 /// Murmur3 represent the state of the murmur3 hash algorithm. It does NOT represent a hash, but a
 /// partial computation of some data. To get the final hash from everything we wrote into the
-/// Hasher, we need to call `finish()`.
+/// Hasher, we need to call [`Murmur3::finish()`].
 ///
-/// Every time we use `write()` on an instance of `Murmur3` it agregates data. See it as a lazily
+/// Every time we use [`Murmur3::write()`] on an instance of [`Murmur3`] it agregates data. See it as a lazily
 /// evaluated hash.
 pub struct Murmur3 {
     // remaining bytes from last call to write()
@@ -79,15 +91,15 @@ impl Hasher for Murmur3 {
         let k = Wrapping(u32::from_le_bytes(self.rem));
 
         h ^= murmur_32_scramble(k);
-    	h ^= len;
-    	h ^= h >> 16;
-    	h = h * Wrapping(0x85ebca6b_u32);
-    	h ^= h >> 13;
-    	h = h * Wrapping(0xc2b2ae35_u32);
-    	h ^= h >> 16;
+        h ^= len;
+        h ^= h >> 16;
+        h = h * Wrapping(0x85ebca6b_u32);
+        h ^= h >> 13;
+        h = h * Wrapping(0xc2b2ae35_u32);
+        h ^= h >> 16;
 
-      // h.0 gives me the unwrapped element
-    	return h.0 as u64;
+        // h.0 gives me the unwrapped element
+        return h.0 as u64;
     }
 
     fn write(&mut self, bytes: &[u8]) {
