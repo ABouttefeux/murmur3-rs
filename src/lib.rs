@@ -20,9 +20,7 @@ pub struct BuildMurmur {
 impl BuildMurmur {
     pub fn new() -> Self {
         let mut rng = rand::thread_rng();
-        Self{
-            seed: rng.gen(),
-        }
+        Self {seed: rng.gen()}
     }
 }
 
@@ -88,7 +86,7 @@ impl Hasher for Murmur3 {
     	h = h * Wrapping(0xc2b2ae35_u32);
     	h ^= h >> 16;
 
-        // h.0 give me the unwrapped element
+      // h.0 gives me the unwrapped element
     	return h.0 as u64;
     }
 
@@ -131,6 +129,6 @@ impl Hasher for Murmur3 {
 fn murmur_32_scramble(k: Wrapping<u32>) -> Wrapping<u32> {
     let k = k * Wrapping(0xcc9e2d51_u32);
     let k = (k << 15) | (k >> 17);
-    let k= k * Wrapping(0x1b873593_u32);
+    let k = k * Wrapping(0x1b873593_u32);
     return k;
 }
