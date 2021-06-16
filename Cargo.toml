@@ -12,4 +12,4 @@ keywords  = ["murmur3", "hash", "MurmurHash", "murmur_hash_3"]
 
 
 [dependencies]
-rand = "0.8.2"
+rand = "0.8.4"
