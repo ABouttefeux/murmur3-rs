@@ -1,29 +1,28 @@
-
 //! Implementation of [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp)
 //! that implement the trait [`std::hash::Hasher`]
 //!
-//! MurmurHash3 is a non-crytographique Hasher. It is also not resistant to HashDoS. 
+//! MurmurHash3 is a non-crytographique Hasher. It is also not resistant to HashDoS.
 //! It is however faster than SipHash 1-3.
 //! This implementation is intended for a light Hasher implementation to use with [`std::collections::HashMap`]
 //! with small keys.
 
 extern crate rand;
 
-use std::{
-    hash::{Hasher, BuildHasher},
-    collections::{HashMap, HashSet},
-    num::Wrapping,
-    convert::TryInto,
-    iter::Iterator,
-};
 use rand::Rng;
+use std::{
+    collections::{HashMap, HashSet},
+    convert::TryInto,
+    hash::{BuildHasher, Hasher},
+    iter::Iterator,
+    num::Wrapping,
+};
 
 /// HashMap using Murmur3.
 pub type Murmur3HashMap<K, V> = HashMap<K, V, BuildMurmur>;
 /// HashSet using Murmur3.
 pub type Murmur3HashSet<T> = HashSet<T, BuildMurmur>;
 
-/// Builder for [`Murmur3`]. The builder generate a random seed, and all Hasher 
+/// Builder for [`Murmur3`]. The builder generate a random seed, and all Hasher
 /// generated from a instance of the builder will share the same seed.
 pub struct BuildMurmur {
     seed: u32,
@@ -32,13 +31,13 @@ pub struct BuildMurmur {
 impl BuildMurmur {
     pub fn new() -> Self {
         let mut rng = rand::thread_rng();
-        Self {seed: rng.gen()}
+        Self { seed: rng.gen() }
     }
 }
 
 impl BuildHasher for BuildMurmur {
     type Hasher = Murmur3;
-    fn build_hasher(&self) -> Self::Hasher{
+    fn build_hasher(&self) -> Self::Hasher {
         Murmur3::new(self.seed)
     }
 }
@@ -63,7 +62,7 @@ pub struct Murmur3 {
 
 impl Murmur3 {
     pub fn new(seed: u32) -> Self {
-        Self{
+        Self {
             rem: [0, 0, 0, 0],
             rem_len: 0,
             total_len: 0,
@@ -73,7 +72,7 @@ impl Murmur3 {
 }
 
 impl Murmur3 {
-    fn compute_full_word(&mut self, k:u32) {
+    fn compute_full_word(&mut self, k: u32) {
         let k = Wrapping(k);
         self.hash ^= murmur_32_scramble(k);
         self.hash = (self.hash << 13) | (self.hash >> 19);
@@ -128,7 +127,7 @@ impl Hasher for Murmur3 {
             self.compute_full_word(k);
         }
 
-        // store remaining bytes 
+        // store remaining bytes
         let rem = iter.remainder();
         self.total_len += bytes.len() - rem.len();
         for n in rem {
