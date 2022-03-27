@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["murmur_hash_3"] = [{"text":"impl Freeze for <a class=\"struct\" href=\"murmur_hash_3/struct.BuildMurmur.html\" title=\"struct murmur_hash_3::BuildMurmur\">BuildMurmur</a>","synthetic":true,"types":["murmur_hash_3::BuildMurmur"]},{"text":"impl Freeze for <a class=\"struct\" href=\"murmur_hash_3/struct.Murmur3.html\" title=\"struct murmur_hash_3::Murmur3\">Murmur3</a>","synthetic":true,"types":["murmur_hash_3::Murmur3"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

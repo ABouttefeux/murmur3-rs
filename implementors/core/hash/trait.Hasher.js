@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["murmur_hash_3"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.59.0/core/hash/trait.Hasher.html\" title=\"trait core::hash::Hasher\">Hasher</a> for <a class=\"struct\" href=\"murmur_hash_3/struct.Murmur3.html\" title=\"struct murmur_hash_3::Murmur3\">Murmur3</a>","synthetic":false,"types":["murmur_hash_3::Murmur3"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
