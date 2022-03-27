@@ -2,7 +2,7 @@
 name = "murmur_hash_3"
 version = "0.1.0"
 authors = ["Aliénore Bouttefeux <alienore.bouttefeux@gmail.com>", "ablanleuil"]
-edition = "2018"
+edition = "2021"
 readme = "README.md"
 repository = "https://github.com/ABouttefeux/murmur3-rs"
 license = "MIT"
@@ -12,4 +12,4 @@ keywords  = ["murmur3", "hash", "MurmurHash", "murmur_hash_3"]
 
 
 [dependencies]
-rand = "0.8.2"
+rand = "0.8.5"
